@@ -18,10 +18,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var TempLabel: UILabel!
     
     
+    // 未来一周天气列表
+    var weekWeatherList: SevenDayWeatherList?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.getCityTodayWeatherByName("1")
+        self.getCitySevenDaysWeather("1")
+        
+        weekWeatherList = self.storyboard?.instantiateViewControllerWithIdentifier("SevenDayWeatherList") as? SevenDayWeatherList
+        
+        
+        let orgY =  CGRectGetMaxY(TempLabel.frame)+20
+        let width = CGRectGetWidth(UIScreen.mainScreen().bounds)
+        let height = CGRectGetHeight(UIScreen.mainScreen().bounds)-orgY
+        weekWeatherList?.view.frame = CGRectMake(0, orgY, width, height)
+        
+        self.view.addSubview((weekWeatherList?.view)!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,7 +46,7 @@ class ViewController: UIViewController {
     // 城市当天的天气
     func getCityTodayWeatherByName(cityName: String) {
     
-        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.today&weaid=\(cityName)&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json")!
+        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.today&weaid=\(cityName)&&appkey=16200&sign=e7217822c124768f365911484057a737&format=json")!
         let request: NSURLRequest = NSURLRequest(URL: url)
         
         
@@ -77,11 +91,18 @@ class ViewController: UIViewController {
                 NSLog("请求出错！")
             } else {
                 
-                let responseString = NSString.init(data: data!, encoding: NSUTF8StringEncoding)
+//                let responseString = NSString.init(data: data!, encoding: NSUTF8StringEncoding)
                 
                 do {
                     
                     let jsonData = (try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    
+                    
+                    // 属性传值
+                    let resultArr = jsonData["result"] as! NSArray
+                    self.weekWeatherList?.weatherData = resultArr
+                    self.weekWeatherList!.tableView.reloadData()
+                    
                     print("\(jsonData)")
                 } catch {
                     
@@ -102,6 +123,7 @@ class ViewController: UIViewController {
 //            self.getCityTodayWeatherByName(cityName)
         }
         
+        // 闭包传值
         cityVC.selectedCityWearID = { (cityWearID: String) in
             
             print("\(cityWearID)")
@@ -112,6 +134,8 @@ class ViewController: UIViewController {
             
         }
     }
+    
+    
     
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		200C92F91BFA011D00BE410E /* SevenDayWeatherList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C92F81BFA011D00BE410E /* SevenDayWeatherList.swift */; };
+		200C92FB1BFA016100BE410E /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C92FA1BFA016100BE410E /* WeatherCell.swift */; };
 		2021CAE31BF494AF001C6A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2021CAE21BF494AF001C6A0C /* AppDelegate.swift */; };
 		2021CAE51BF494AF001C6A0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2021CAE41BF494AF001C6A0C /* ViewController.swift */; };
 		2021CAE81BF494AF001C6A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2021CAE61BF494AF001C6A0C /* Main.storyboard */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		200C92F81BFA011D00BE410E /* SevenDayWeatherList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SevenDayWeatherList.swift; sourceTree = "<group>"; };
+		200C92FA1BFA016100BE410E /* WeatherCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		2021CADF1BF494AF001C6A0C /* MagicWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagicWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2021CAE21BF494AF001C6A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2021CAE41BF494AF001C6A0C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 				2021CAE41BF494AF001C6A0C /* ViewController.swift */,
 				2021CAE61BF494AF001C6A0C /* Main.storyboard */,
 				2021CB101BF49F5C001C6A0C /* CityListController.swift */,
+				200C92F81BFA011D00BE410E /* SevenDayWeatherList.swift */,
+				200C92FA1BFA016100BE410E /* WeatherCell.swift */,
 				2021CAE91BF494AF001C6A0C /* Assets.xcassets */,
 				2021CAEB1BF494AF001C6A0C /* LaunchScreen.storyboard */,
 				2021CAEE1BF494AF001C6A0C /* Info.plist */,
@@ -261,7 +267,9 @@
 			files = (
 				2021CAE51BF494AF001C6A0C /* ViewController.swift in Sources */,
 				2021CB111BF49F5C001C6A0C /* CityListController.swift in Sources */,
+				200C92FB1BFA016100BE410E /* WeatherCell.swift in Sources */,
 				2021CAE31BF494AF001C6A0C /* AppDelegate.swift in Sources */,
+				200C92F91BFA011D00BE410E /* SevenDayWeatherList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +496,7 @@
 				2021CB091BF494B0001C6A0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2021CB0A1BF494B0001C6A0C /* Build configuration list for PBXNativeTarget "MagicWeatherTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +505,7 @@
 				2021CB0C1BF494B0001C6A0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2021CB0D1BF494B0001C6A0C /* Build configuration list for PBXNativeTarget "MagicWeatherUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +514,7 @@
 				2021CB0F1BF494B0001C6A0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
