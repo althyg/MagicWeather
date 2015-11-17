@@ -27,15 +27,18 @@ class ViewController: UIViewController {
         self.getCityTodayWeatherByName("1")
         self.getCitySevenDaysWeather("1")
         
+        // 初始化表视图控制器
         weekWeatherList = self.storyboard?.instantiateViewControllerWithIdentifier("SevenDayWeatherList") as? SevenDayWeatherList
+        self.view.addSubview((weekWeatherList?.view)!)
         
         
+        // 设置 表视图的 Frame
         let orgY =  CGRectGetMaxY(TempLabel.frame)+20
         let width = CGRectGetWidth(UIScreen.mainScreen().bounds)
         let height = CGRectGetHeight(UIScreen.mainScreen().bounds)-orgY
         weekWeatherList?.view.frame = CGRectMake(0, orgY, width, height)
         
-        self.view.addSubview((weekWeatherList?.view)!)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +67,8 @@ class ViewController: UIViewController {
                     let jsonData = (try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                     
                     self.cityNameLabel.text = jsonData["result"]!["citynm"] as? String
+                    
+                    
                     self.weatherLabel.text = jsonData["result"]!["weather"] as? String
                     self.TempLabel.text = jsonData["result"]!["temp_curr"] as? String
                     self.TempLabel.text?.appendContentsOf("℃")
@@ -80,7 +85,7 @@ class ViewController: UIViewController {
         
         // http://api.k780.com:88/?app=weather.today&weaid=1&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json
         
-        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.future&weaid=1&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json")!
+        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.future&weaid=1&&appkey=16200&sign=e7217822c124768f365911484057a737&format=json")!
 
         
         let request: NSURLRequest = NSURLRequest(URL: url)

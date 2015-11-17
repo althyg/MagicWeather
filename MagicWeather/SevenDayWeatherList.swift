@@ -14,10 +14,6 @@ class SevenDayWeatherList: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-
-        self.tableView.registerClass(WeatherCell.self, forCellReuseIdentifier: "WeatherCell")
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,12 +39,18 @@ class SevenDayWeatherList: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("WeatherCell", forIndexPath: indexPath) as! WeatherCell
-
         
-        cell.textLabel!.text = weatherData![indexPath.row]["week"] as! String
-//        cell.detailTextLabel?.text = "hah "
+        // 显示 周期及最高温和最低温
+        cell.weekDayLabel.text = weatherData?[indexPath.row]["week"] as? String
+        cell.highTempLabel.text = weatherData?[indexPath.row]["temp_high"] as? String
+        cell.lowTempLabel.text = weatherData?[indexPath.row]["temp_low"] as? String
         
+        
+        // 显示天气图像
+        let imageData = NSData(contentsOfURL: NSURL(string: (weatherData?[indexPath.row]["weather_icon"])! as! String)!)
+        cell.weatherImage.image = UIImage(data: imageData!)
         
         return cell
     }
