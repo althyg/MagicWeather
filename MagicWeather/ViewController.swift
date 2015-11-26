@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
 
     // 城市名
     @IBOutlet weak var cityNameLabel: UILabel!
@@ -18,14 +19,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var TempLabel: UILabel!
     
     
+    // 声明 定位管理对象
+    var locationManager : CLLocationManager?
+    
     // 未来一周天气列表
     var weekWeatherList: SevenDayWeatherList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.getCityTodayWeatherByName("1")
-        self.getCitySevenDaysWeather("1")
+        self.getCityTodayWeatherByCityId("1")
+        self.getCitySevenDaysWeatherCityId("1")
         
         // 初始化表视图控制器
         weekWeatherList = self.storyboard?.instantiateViewControllerWithIdentifier("SevenDayWeatherList") as? SevenDayWeatherList
@@ -39,6 +43,21 @@ class ViewController: UIViewController {
         weekWeatherList?.view.frame = CGRectMake(0, orgY, width, height)
         
         
+        
+        // 初始化定位相关对象
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self;
+        //设备使用电池供电时最高的精度
+        locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+        //精确到1000米,距离过滤器，定义了设备移动后获得位置信息的最小距离
+        locationManager!.distanceFilter = 10.0 // 单位 10 米
+
+        
+        let enable = CLLocationManager.locationServicesEnabled()
+        let state = CLLocationManager.authorizationStatus()
+        if enable {
+            locationManager?.startUpdatingLocation()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,9 +66,9 @@ class ViewController: UIViewController {
     }
 
     // 城市当天的天气
-    func getCityTodayWeatherByName(cityName: String) {
+    func getCityTodayWeatherByCityId(cityID: String) {
     
-        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.today&weaid=\(cityName)&&appkey=16200&sign=e7217822c124768f365911484057a737&format=json")!
+        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.today&weaid=\(cityID)&&appkey=16200&sign=e7217822c124768f365911484057a737&format=json")!
         let request: NSURLRequest = NSURLRequest(URL: url)
         
         
@@ -81,11 +100,11 @@ class ViewController: UIViewController {
 
     
     // 城市未来一周的天气
-    func getCitySevenDaysWeather(cityName: String) {
+    func getCitySevenDaysWeatherCityId(cityID: String) {
         
         // http://api.k780.com:88/?app=weather.today&weaid=1&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json
         
-        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.future&weaid=1&&appkey=16200&sign=e7217822c124768f365911484057a737&format=json")!
+        let url: NSURL = NSURL(string: "http://api.k780.com:88/?app=weather.future&weaid=\(cityID)&&appkey=16200&sign=e7217822c124768f365911484057a737&format=json")!
 
         
         let request: NSURLRequest = NSURLRequest(URL: url)
@@ -132,7 +151,8 @@ class ViewController: UIViewController {
         cityVC.selectedCityWearID = { (cityWearID: String) in
             
             print("\(cityWearID)")
-            self.getCityTodayWeatherByName("\(cityWearID)")
+            self.getCityTodayWeatherByCityId("\(cityWearID)")
+            self.getCitySevenDaysWeatherCityId("\(cityWearID)")
         }
         
         self.presentViewController(vc, animated: true) { () -> Void in
@@ -141,6 +161,35 @@ class ViewController: UIViewController {
     }
     
     
+    // MARK: - 自动定位当前城市
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        manager.stopUpdatingLocation()
+        
+        let mLocation = locations.last
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(mLocation!) { (placeMarks, error) -> Void in
+            
+            if (error != nil) {
+                
+                return
+            }
+            
+            for pm: CLPlacemark in placeMarks! {
+                
+                let addrrDic = pm.addressDictionary
+                print("\(addrrDic)")
+                
+                self.cityNameLabel.text = addrrDic!["City"] as? String
+                
+                //1， 已经拿到城市名字了； 2. 显示当前城市名；  3，获取当前城市对应的天气数据 
+                
+                
+            }
+        }
+    }
+    // MARK: - 结束定位相关代码
     
 }
 

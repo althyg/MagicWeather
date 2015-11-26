@@ -66,9 +66,13 @@ class CityListController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let cityDic: NSDictionary = self.citysArr![indexPath.row] as! NSDictionary
+        
+        
         selectedCity!(cityName: cityDic["citynm"] as! String)
         
+        // 城市 ID
         selectedCityWearID!(cityWID: self.cityWearIds![indexPath.row] as! String)
+        
         
         
         self.dismiss()
